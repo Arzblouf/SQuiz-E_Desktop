@@ -1,6 +1,7 @@
-﻿using System;
+﻿using StadiumProject.Controllers;
+using System;
+using System.Reflection;
 using System.Windows.Forms;
-using StadiumProject.Controllers;
 
 namespace StadiumProject
 {
@@ -21,6 +22,7 @@ namespace StadiumProject
             InitializeComponent();
             ConfigureAnswerDGV();
             LoadQuestionTypes();
+            LoadWeight();
         }
 
         private void ConfigureAnswerDGV()
@@ -65,6 +67,16 @@ namespace StadiumProject
             vraiFauxComboBox.Items.Add("Faux");
         }
 
+        private void LoadWeight()
+        {
+            weightCheckedListBox.Items.Add("1");
+            weightCheckedListBox.Items.Add("2");
+            weightCheckedListBox.Items.Add("3");
+            weightCheckedListBox.Items.Add("8000");
+
+            weightCheckedListBox.SetItemChecked(0, true);
+        }
+
         public void setCreateMode()
         {
             questionLabel.Text = "Créer une nouvelle question";
@@ -73,6 +85,7 @@ namespace StadiumProject
             questionTypeComboBox.Enabled = true;
             questionTypeComboBox.SelectedIndex = -1;
             answerDGV.DataSource = null;
+            weightCheckedListBox.Enabled = false;
 
             vraiFauxLabel.Text = "Disponible uniquement pour les questions de type 'Vrai ou Faux'.";
             vraiFauxComboBox.Enabled = false;
@@ -93,6 +106,7 @@ namespace StadiumProject
                 questionTitleTextBox.Text = question.caption;
                 questionTypeComboBox.SelectedValue = question.id_type;
                 questionTypeComboBox.Enabled = false;
+                weightCheckedListBox.Enabled = true;
 
                 if (question.id_type == 1)
                 {
@@ -122,34 +136,43 @@ namespace StadiumProject
             }
         }
 
+        private void weightCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            for (int i = 0; i < weightCheckedListBox.Items.Count; i++)
+            {
+                if (i != e.Index)
+                {
+                    weightCheckedListBox.SetItemChecked(i, false);
+                }
+            }
+        }
+
         private void addAnswerButton_Click(object sender, EventArgs e)
         {
             var validAnswer = rightAnswerCheckBox.Checked;
-            if (answeringController.CheckValidAnswer(currentQuestionId) == true)
+            if (validAnswer && answeringController.CheckValidAnswer(currentQuestionId))
             {
-                var result = answerController.CreateAnswer(answerTextBox.Text);
-                if (result.Success)
-                {
-                    var linkResult = answeringController.LinkAnswer(currentQuestionId, result.id, validAnswer);
-                    if (linkResult.Success)
-                    {
-                        MessageBox.Show(result.Message, "Réponse ajoutée.", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        answerTextBox.Clear();
-                        LoadAnswers();
-                    }
-                    else
-                    {
-                        MessageBox.Show(result.Message, "Erreur...", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show(result.Message, "Erreur...", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                MessageBox.Show("Une bonne réponse a déjà été ajoutée. Supprimer là d'abord.", "Erreur...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            var result = answerController.CreateAnswer(answerTextBox.Text);
+            if (!result.Success)
+            {
+                MessageBox.Show(result.Message, "Erreur...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var linkResult = answeringController.LinkAnswer(currentQuestionId, result.id, validAnswer);
+            if (linkResult.Success)
+            {
+                MessageBox.Show("Réponse ajoutée.", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                answerTextBox.Clear();
+                LoadAnswers();
             }
             else
             {
-                MessageBox.Show("Une bonne réponse a déjà été ajoutée. Supprimer là d'abord.", "Erreur...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(linkResult.Message, "Erreur...", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -160,7 +183,7 @@ namespace StadiumProject
             var confirm = MessageBox.Show($"Êtes-vous sûr de vouloir supprimer cette réponse ?", "Confirmer la suppression", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (confirm == DialogResult.Yes)
             {
-                var result =answeringController.UnlinkAnswer(currentQuestionId, answerId);
+                var result = answeringController.UnlinkAnswer(currentQuestionId, answerId);
                 if (result.Success)
                 {
                     answerController.DeleteAnswer(answerId);
@@ -188,25 +211,35 @@ namespace StadiumProject
             }
             else
             {
+                int weight = 1;
+                if (weightCheckedListBox.Items.Count > 0 && int.TryParse(weightCheckedListBox.CheckedItems[0].ToString(), out int parsedWeight))
+                {
+                    weight = parsedWeight;
+                }
+
                 var questionType = questionTypeController.GetTypeByQuestionId(currentQuestionId);
                 if (questionType.id == 1)
                 {
                     isTrue = (vraiFauxComboBox.SelectedIndex == 0);
                     var rightResult = answeringController.LinkAnswer(currentQuestionId, 1, isTrue);
                     var wrongResult = answeringController.LinkAnswer(currentQuestionId, 2, !isTrue);
+                    answeringController.UpdateWeight(currentQuestionId, weight);
                 }
                 else
                 {
-                    if (questionTypeComboBox.SelectedIndex == 2)
+                    if (answerDGV.Rows.Count < 2)
                     {
-                        if (answerDGV.Rows.Count < 2)
-                        {
-                            MessageBox.Show("Veuillez ajouter au moins deux réponses pour ce type de question.", "Erreur...", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-                        var result = questionController.UpdateQuestion(currentQuestionId, questionTitleTextBox.Text, questionType.id);
-                        MessageBox.Show("Question créée avec succès.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Veuillez ajouter au moins deux réponses pour ce type de question.", "Erreur...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
+                    if (answeringController.CheckValidAnswer(currentQuestionId) == false)
+                    {
+                        MessageBox.Show("Veuillez ajouter une bonne réponse.", "Erreur...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    var result = questionController.UpdateQuestion(currentQuestionId, questionTitleTextBox.Text, questionType.id);
+                    answeringController.UpdateWeight(currentQuestionId, weight);
+                    MessageBox.Show("Question modifiée avec succès.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             SubmitQuestionRequested.Invoke(this, EventArgs.Empty);

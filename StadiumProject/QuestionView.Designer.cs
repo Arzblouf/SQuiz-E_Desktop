@@ -38,11 +38,13 @@
             this.vraiFauxLabel = new System.Windows.Forms.Label();
             this.answerLabel = new System.Windows.Forms.Label();
             this.answerDGV = new System.Windows.Forms.DataGridView();
-            this.nigga = new System.Windows.Forms.Label();
+            this.answerListLabel = new System.Windows.Forms.Label();
             this.addAnswerButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
             this.rightAnswerCheckBox = new System.Windows.Forms.CheckBox();
+            this.weightLabel = new System.Windows.Forms.Label();
+            this.weightCheckedListBox = new System.Windows.Forms.CheckedListBox();
             ((System.ComponentModel.ISupportInitialize)(this.answerDGV)).BeginInit();
             this.SuspendLayout();
             // 
@@ -133,14 +135,14 @@
             this.answerDGV.TabIndex = 9;
             this.answerDGV.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.answerDGV_CellContentClick);
             // 
-            // nigga
+            // answerListLabel
             // 
-            this.nigga.AutoSize = true;
-            this.nigga.Location = new System.Drawing.Point(651, 87);
-            this.nigga.Name = "nigga";
-            this.nigga.Size = new System.Drawing.Size(113, 16);
-            this.nigga.TabIndex = 10;
-            this.nigga.Text = "Vos réponses ici :";
+            this.answerListLabel.AutoSize = true;
+            this.answerListLabel.Location = new System.Drawing.Point(651, 87);
+            this.answerListLabel.Name = "answerListLabel";
+            this.answerListLabel.Size = new System.Drawing.Size(113, 16);
+            this.answerListLabel.TabIndex = 10;
+            this.answerListLabel.Text = "Vos réponses ici :";
             // 
             // addAnswerButton
             // 
@@ -189,15 +191,35 @@
             this.rightAnswerCheckBox.Text = "Est-ce la bonne réponse ?";
             this.rightAnswerCheckBox.UseVisualStyleBackColor = true;
             // 
+            // weightLabel
+            // 
+            this.weightLabel.AutoSize = true;
+            this.weightLabel.Location = new System.Drawing.Point(566, 364);
+            this.weightLabel.Name = "weightLabel";
+            this.weightLabel.Size = new System.Drawing.Size(284, 16);
+            this.weightLabel.TabIndex = 15;
+            this.weightLabel.Text = "Combien de point rapporte la bonne réponse ?";
+            // 
+            // weightCheckedListBox
+            // 
+            this.weightCheckedListBox.FormattingEnabled = true;
+            this.weightCheckedListBox.Location = new System.Drawing.Point(644, 406);
+            this.weightCheckedListBox.Name = "weightCheckedListBox";
+            this.weightCheckedListBox.Size = new System.Drawing.Size(120, 89);
+            this.weightCheckedListBox.TabIndex = 16;
+            this.weightCheckedListBox.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.weightCheckedListBox_ItemCheck);
+            // 
             // QuestionView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.weightCheckedListBox);
+            this.Controls.Add(this.weightLabel);
             this.Controls.Add(this.rightAnswerCheckBox);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.addAnswerButton);
-            this.Controls.Add(this.nigga);
+            this.Controls.Add(this.answerListLabel);
             this.Controls.Add(this.answerDGV);
             this.Controls.Add(this.answerLabel);
             this.Controls.Add(this.vraiFauxLabel);
@@ -228,10 +250,12 @@
         private System.Windows.Forms.Label vraiFauxLabel;
         private System.Windows.Forms.Label answerLabel;
         private System.Windows.Forms.DataGridView answerDGV;
-        private System.Windows.Forms.Label nigga;
+        private System.Windows.Forms.Label answerListLabel;
         private System.Windows.Forms.Button addAnswerButton;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.CheckBox rightAnswerCheckBox;
+        private System.Windows.Forms.Label weightLabel;
+        private System.Windows.Forms.CheckedListBox weightCheckedListBox;
     }
 }

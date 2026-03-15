@@ -43,7 +43,7 @@ namespace StadiumProject.Controllers
             {
                 return false;
             }
-            return answeringRepository.CheckValidAnswer(id_question) > -1;
+            return answeringRepository.HasValidAnswer(id_question);
         }
 
         public (bool Success, string Message) LinkAnswer(int id_question, int id_answer, bool valid_answer)
@@ -65,6 +65,16 @@ namespace StadiumProject.Controllers
             }
             bool success = answeringRepository.UpdateRightAnswer(id_question, id_answer);
             return success ? (true, "Association question-réponse mise à jour avec succès.") : (false, "Échec de la mise à jour de l'association question-réponse.");
+        }
+
+        public (bool Success, string Message) UpdateWeight(int id_question, int weight)
+        {
+            if (id_question <= 0)
+            {
+                return (false, "ID de question invalide.");
+            }
+            bool success = answeringRepository.UpdateWeight(id_question, weight);
+            return success ? (true, "Nombre de point de la réponse mis à jour avec succès.") : (false, "Echec de la mise à jour du nombre de point de la réponse.");
         }
 
         public (bool Success, string Message) UnlinkAnswer(int id_question, int id_answer)

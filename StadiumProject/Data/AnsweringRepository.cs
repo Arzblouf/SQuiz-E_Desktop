@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Crypto.Parameters;
 using StadiumProject.Models;
 
 namespace StadiumProject.Data
@@ -15,7 +16,7 @@ namespace StadiumProject.Data
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                string query = "SELECT id_question, id_answer, valid_answer, num_answer FROM answering";
+                string query = "SELECT id_question, id_answer, valid_answer, num_answer FROM answering;";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     try
@@ -50,7 +51,7 @@ namespace StadiumProject.Data
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                string query = "SELECT id_question, id_answer, valid_answer, num_answer FROM answering WHERE id_question = @id_question";
+                string query = "SELECT id_question, id_answer, valid_answer, num_answer FROM answering WHERE id_question = @id_question;";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id_question", id_question);
@@ -121,7 +122,7 @@ namespace StadiumProject.Data
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                string query = "SELECT COALESCE(MAX(num_answer), 0) + 1 FROM answering WHERE id_question = @id_question";
+                string query = "SELECT COALESCE(MAX(num_answer), 0) + 1 FROM answering WHERE id_question = @id_question;";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id_question", id_question);
@@ -138,19 +139,19 @@ namespace StadiumProject.Data
             return nextNum;
         }
 
-        public int CheckValidAnswer(int id_question)
+        public bool HasValidAnswer(int id_question)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                string query = "SELECT id_answer FROM answering WHERE id_question=@id_question AND valid_answer=true;";
+                string query = "SELECT COUNT(*) FROM answering WHERE id_question = @id_question AND valid_answer = 1;";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue(@"id_question", id_question);
                     try
                     {
-                        object result = command.ExecuteScalar();
-                        return Convert.ToInt32(result);
+                        int count = Convert.ToInt32(command.ExecuteScalar());
+                        return count > 0;
                     }
                     catch (MySqlException ex)
                     {
@@ -158,21 +159,22 @@ namespace StadiumProject.Data
                     }
                 }
             }
-            return -1;
+            return false;
         }
 
-        public bool LinkAnswer(int id_question, int id_answer, bool valid_answer, int num_answer)
+        public bool LinkAnswer(int id_question, int id_answer, bool valid_answer, int num_answer, int weight = 0)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                string query = "INSERT INTO answering (id_question, id_answer, valid_answer, num_answer) VALUES (@id_question, @id_answer, @valid_answer, @num_answer)";
+                string query = "INSERT INTO answering (id_question, id_answer, valid_answer, num_answer, weight) VALUES (@id_question, @id_answer, @valid_answer, @num_answer, @weight);";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id_question", id_question);
                     command.Parameters.AddWithValue("@id_answer", id_answer);
                     command.Parameters.AddWithValue("@valid_answer", valid_answer);
                     command.Parameters.AddWithValue("@num_answer", num_answer);
+                    command.Parameters.AddWithValue("@weight", weight);
                     try
                     {
                         return command.ExecuteNonQuery() > 0;
@@ -191,7 +193,7 @@ namespace StadiumProject.Data
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                string query = "UPDATE answering SET valid_answer = true WHERE id_question = @id_question AND id_answer = @id_answer";
+                string query = "UPDATE answering SET valid_answer = true WHERE id_question = @id_question AND id_answer = @id_answer;";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id_question", id_question);
@@ -209,12 +211,35 @@ namespace StadiumProject.Data
             }
         }
 
+        public bool UpdateWeight(int id_question, int weight)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                string query = "UPDATE answering SET weight = @weight WHERE id_question = @id_question AND valid_answer = 1;";
+                using (MySqlCommand command = new MySqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@weight", weight);
+                    command.Parameters.AddWithValue("@id_question", id_question);
+                    try
+                    {
+                        return command.ExecuteNonQuery() > 0;
+                    }
+                    catch (MySqlException ex)
+                    {
+                        Console.WriteLine("Erreur lors de la mise à jour des points de la réponse : " + ex.Message);
+                        return false;
+                    }
+                }
+            }
+        }
+
         public bool UnlinkAnswer(int id_question, int id_answer)
         {
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
-                string query = "DELETE FROM answering WHERE id_question = @id_question AND id_answer = @id_answer";
+                string query = "DELETE FROM answering WHERE id_question = @id_question AND id_answer = @id_answer;";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id_question", id_question);
