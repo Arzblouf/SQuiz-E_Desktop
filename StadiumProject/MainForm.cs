@@ -10,6 +10,7 @@ namespace StadiumProject
         private readonly SurveyView surveyView = new SurveyView { Dock = DockStyle.Fill };
         private readonly QuestionView questionView = new QuestionView { Dock = DockStyle.Fill };
         private readonly QuestionListView questionListView = new QuestionListView { Dock = DockStyle.Fill };
+        private readonly IssueView issueView = new IssueView { Dock = DockStyle.Fill };
 
         public MainForm()
         {
@@ -41,6 +42,7 @@ namespace StadiumProject
                 ShowView(surveyView);
             };
             menuView.AddQuestionRequested += (s, e) => ShowView(questionListView);
+            menuView.ToIssueRequested += (s, e) => ShowView(issueView);
 
             surveyView.SubmitSurveyRequested += (s, e) => ShowView(menuView);
             surveyView.CancelRequested += (s, e) => ShowView(menuView);
@@ -60,12 +62,15 @@ namespace StadiumProject
                 ShowView(questionView);
             };
 
+            issueView.BackToMenuRequested += (s, e) => ShowView(menuView);
+
             this.Controls.Add(loginView);
             this.Controls.Add(registerView);
             this.Controls.Add(menuView);
             this.Controls.Add(surveyView);
             this.Controls.Add(questionView);
             this.Controls.Add(questionListView);
+            this.Controls.Add(issueView);
 
             ShowView(loginView);
         }
@@ -78,6 +83,7 @@ namespace StadiumProject
             surveyView.Visible = false;
             questionView.Visible = false;
             questionListView.Visible = false;
+            issueView.Visible = false;
 
             view.Visible = true;
             view.BringToFront();

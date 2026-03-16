@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace StadiumProject.Models
+﻿namespace StadiumProject.Models
 {
     public class Answer
     {

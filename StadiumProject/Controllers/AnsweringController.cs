@@ -1,6 +1,5 @@
 ﻿using StadiumProject.Data;
 using StadiumProject.Models;
-using System;
 using System.Collections.Generic;
 
 namespace StadiumProject.Controllers

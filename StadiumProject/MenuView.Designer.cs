@@ -40,6 +40,7 @@ namespace StadiumProject
             this.TSMIModify = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMIDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.addQuestionButton = new System.Windows.Forms.Button();
+            this.toIssueButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DGVSurvey)).BeginInit();
             this.CMSGridMenu.SuspendLayout();
             this.SuspendLayout();
@@ -130,10 +131,23 @@ namespace StadiumProject
             this.addQuestionButton.UseVisualStyleBackColor = true;
             this.addQuestionButton.Click += new System.EventHandler(this.addQuestionButton_Click);
             // 
+            // toIssueButton
+            // 
+            this.toIssueButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toIssueButton.ForeColor = System.Drawing.Color.Crimson;
+            this.toIssueButton.Location = new System.Drawing.Point(838, 474);
+            this.toIssueButton.Name = "toIssueButton";
+            this.toIssueButton.Size = new System.Drawing.Size(148, 54);
+            this.toIssueButton.TabIndex = 9;
+            this.toIssueButton.Text = "Voir les problèmes signalés.";
+            this.toIssueButton.UseVisualStyleBackColor = true;
+            this.toIssueButton.Click += new System.EventHandler(this.toIssueButton_Click);
+            // 
             // MenuView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.toIssueButton);
             this.Controls.Add(this.addQuestionButton);
             this.Controls.Add(this.DGVSurvey);
             this.Controls.Add(this.oopsieLabel);
@@ -159,5 +173,6 @@ namespace StadiumProject
         private System.Windows.Forms.ToolStripMenuItem TSMIModify;
         private System.Windows.Forms.ToolStripMenuItem TSMIDelete;
         private System.Windows.Forms.Button addQuestionButton;
+        private System.Windows.Forms.Button toIssueButton;
     }
 }

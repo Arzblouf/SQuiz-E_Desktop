@@ -10,6 +10,7 @@ namespace StadiumProject
         public event EventHandler CreateSurveyRequested;
         public event EventHandler<int> ModifySurveyRequested;
         public event EventHandler AddQuestionRequested;
+        public event EventHandler ToIssueRequested;
 
         private int selectedSurveyID = -1;
 
@@ -110,6 +111,11 @@ namespace StadiumProject
         private void addQuestionButton_Click(object sender, EventArgs e)
         {
             AddQuestionRequested.Invoke(this, EventArgs.Empty);
+        }
+
+        private void toIssueButton_Click(object sender, EventArgs e)
+        {
+            ToIssueRequested.Invoke(this, EventArgs.Empty);
         }
     }
 }
