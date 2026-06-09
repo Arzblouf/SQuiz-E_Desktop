@@ -15,24 +15,25 @@ namespace StadiumProject
         public LoginView()
         {
             InitializeComponent();
+            bddNameLabel.Text = new Data.Database().bddName;
         }
 
         private void loginButton_Click(object sender, EventArgs e)
         {
-            /*var result = loginController.Login(
+            var result = loginController.Login(
                 emailTextBox.Text,
                 passwordTextBox.Text
             );
 
             if (result.Success)
             {
+                Session.CurrentUserID = loginController.GetUserIdByEmail(emailTextBox.Text);
                 LoginButtonClicked.Invoke(this, EventArgs.Empty);
             }
             else
             {
                 MessageBox.Show(result.Message, "Erreur...", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }*/
-            LoginButtonClicked.Invoke(this, EventArgs.Empty);
+            }
         }
 
         private void GoToRegisterButton_Click(object sender, EventArgs e)
@@ -49,6 +50,16 @@ namespace StadiumProject
         private void CloseAppButton_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void CloseAppButton_MouseEnter(object sender, EventArgs e)
+        {
+            CloseAppButton.BackColor = System.Drawing.Color.Crimson;
+        }
+
+        private void CloseAppButton_MouseLeave(object sender, EventArgs e)
+        {
+            CloseAppButton.BackColor = System.Drawing.Color.CornflowerBlue;
         }
     }
 }

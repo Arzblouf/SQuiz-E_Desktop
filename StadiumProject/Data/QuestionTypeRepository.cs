@@ -7,12 +7,12 @@ namespace StadiumProject.Data
 {
     public class QuestionTypeRepository
     {
-        private readonly string connectionString = "Server=localhost;Database=stadiumproject;User=root;Password=groscaca;";
+        //private readonly string connectionString = "Server=localhost;Database=stadiumproject;User=root;Password=groscaca;";
 
         public List<QuestionType> GetAllQuestionTypes()
         {
             List<QuestionType> questionTypes = new List<QuestionType>();
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "SELECT id, label FROM question_type;";
@@ -43,7 +43,7 @@ namespace StadiumProject.Data
 
         public QuestionType GetTypeByQuestionId(int id)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "SELECT question_type.id, question_type.label FROM question_type INNER JOIN question ON question_type.id=question.id_type WHERE question.id = @Id;";

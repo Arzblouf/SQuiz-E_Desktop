@@ -43,5 +43,14 @@ namespace StadiumProject.Controllers
             User user = userRepository.LoginUser(email, password);
             return (user != null) ? (true, $"Bienvenue {user.username} !", user) : (false, "Email ou mot de passe incorrect.", null);
         }
+
+        public int GetUserIdByEmail(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return -1;
+            }
+            return userRepository.GetUserIdByEmail(email);
+        }
     }
 }

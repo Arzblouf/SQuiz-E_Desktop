@@ -7,12 +7,12 @@ namespace StadiumProject.Data
 {
     public class ThemeRepository
     {
-        private readonly string connectionString = "Server=localhost;Database=stadiumproject;User=root;Password=groscaca";
+        //private readonly string connectionString = "Server=localhost;Database=stadiumproject;User=root;Password=groscaca";
 
         public List<Theme> GetAllThemes()
         {
             List<Theme> themes = new List<Theme>();
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "SELECT id, name FROM theme";

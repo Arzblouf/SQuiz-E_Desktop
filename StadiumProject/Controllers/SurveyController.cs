@@ -27,6 +27,15 @@ namespace StadiumProject.Controllers
             return surveyRepository.GetSurveyById(id);
         }
 
+        public List<Survey> GetSurveyByUserID(int id_user)
+        {
+            if (id_user <= 0)
+            {
+                return null;
+            }
+            return surveyRepository.GetSurveyByUserID(id_user);
+        }
+
         public (bool Success, string Message) CreateSurvey(string title, int id_theme, bool publish)
         {
             if (string.IsNullOrEmpty(title) || id_theme <= 0)

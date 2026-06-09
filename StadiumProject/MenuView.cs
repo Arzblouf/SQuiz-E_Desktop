@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
 using StadiumProject.Controllers;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using System.Collections.Generic;
+using PdfSharp.Fonts;
 
 namespace StadiumProject
 {
@@ -13,8 +17,11 @@ namespace StadiumProject
         public event EventHandler ToIssueRequested;
 
         private int selectedSurveyID = -1;
+        public int CurrentUserID { get; set; }
 
         private readonly SurveyController surveyController = new SurveyController();
+        private readonly QuestionController questionController = new QuestionController();
+        private readonly AnsweringController answeringController = new AnsweringController();
         public MenuView()
         {
             InitializeComponent();
@@ -39,7 +46,7 @@ namespace StadiumProject
 
         public void LoadSurveys()
         {
-            var surveys = surveyController.GetAllSurveys();
+            var surveys = surveyController.GetSurveyByUserID(Session.CurrentUserID);
             DGVSurvey.DataSource = surveys;
         }
 
@@ -78,11 +85,6 @@ namespace StadiumProject
             CMSGridMenu.Show(DGVSurvey, DGVSurvey.PointToClient(Cursor.Position));
         }
 
-        private void TSMICreateSurvey_Click(object sender, EventArgs e)
-        {
-            CreateSurveyRequested.Invoke(this, EventArgs.Empty);
-        }
-
         private void TSMIModifySurvey_Click(object sender, EventArgs e)
         {
             if (selectedSurveyID < 0)
@@ -108,6 +110,93 @@ namespace StadiumProject
             }
         }
 
+        private void TSMIGeneratePDF_Click(object sender, EventArgs e)
+        {
+            if (selectedSurveyID < 0)
+            {
+                return;
+            }
+
+            var confirm = MessageBox.Show("Générer ce questionnaire au format PDF ?", "Générer PDF", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (confirm == DialogResult.Yes)
+            {
+                if (GlobalFontSettings.FontResolver == null)
+                {
+                    GlobalFontSettings.FontResolver = new WindowsFontResolver();
+                }
+
+                selectedSurveyID = Convert.ToInt32(DGVSurvey.SelectedRows[0].Cells["ID"].Value);
+                PdfDocument document = new PdfDocument();
+                document.Info.Title = "Questionnaire PDF";
+
+                PdfPage page = document.AddPage();
+                XGraphics gfx = XGraphics.FromPdfPage(page);
+                
+                XFont fontTitle = new XFont("Arial", 12, XFontStyleEx.Bold);
+                XFont fontQuestion = new XFont("Arial", 10, XFontStyleEx.Regular);
+                XFont fontAnswer = new XFont("Arial", 10, XFontStyleEx.Regular);
+
+                double yPoint = 40;
+                double marginLeft = 40;
+                double pageWidth = page.Width - 80;
+
+                gfx.DrawString("Questionnaire ID: " + selectedSurveyID, fontTitle, XBrushes.Black,
+                    new XRect(marginLeft, yPoint, pageWidth, 30), XStringFormats.TopLeft);
+                yPoint += 30;
+
+                gfx.DrawLine(XPens.Black, marginLeft, yPoint, page.Width - marginLeft, yPoint);
+                yPoint += 20;
+
+                var questions = questionController.GetSurveyQuestions(selectedSurveyID);
+                var questionnaire = new List<(string question, List<(string content, bool isCorrect)> answers)>();
+                foreach (var question in questions)
+                {
+                    var answers = answeringController.GetAnswersByQuestionId(question.id_question);
+                    questionnaire.Add((question.caption, answers.ConvertAll(a => (a.content, a.valid_answer))));
+                }
+
+                foreach (var item in questionnaire)
+                {
+                    if (yPoint + 40 > page.Height)
+                    {
+                        page = document.AddPage();
+                        gfx = XGraphics.FromPdfPage(page);
+                        yPoint = 40;
+                    }
+
+                    gfx.DrawString($"Q: {item.question}", fontQuestion, XBrushes.Black,
+                        new XRect(marginLeft, yPoint, pageWidth, 20), XStringFormats.TopLeft);
+                    yPoint += 20;
+
+                    char letter = 'A';
+                    foreach (var answer in item.answers)
+                    {
+                        if (yPoint + 20 > page.Height)
+                        {
+                            page = document.AddPage();
+                            gfx = XGraphics.FromPdfPage(page);
+                            yPoint = 40;
+                        }
+
+                        XBrush color = answer.isCorrect ? XBrushes.Green : XBrushes.Black;
+                        gfx.DrawString($" {letter}. {answer.content}", fontAnswer, color,
+                            new XRect(marginLeft + 20, yPoint, pageWidth - 20, 20), XStringFormats.TopLeft);
+                        yPoint += 20;
+                        letter++;
+                    }
+                    yPoint += 15;
+                }
+
+                string fileName = $"Questionnaire_{selectedSurveyID}.pdf";
+                string filePath = $@"C:\Users\joshu\Desktop\QuestionnairePDF\{fileName}";
+                document.Save(filePath);
+
+                System.Diagnostics.Process.Start(filePath);
+                MessageBox.Show($"Questionnaire PDF généré avec succès : {filePath}", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            selectedSurveyID = -1;
+        }
+
         private void addQuestionButton_Click(object sender, EventArgs e)
         {
             AddQuestionRequested.Invoke(this, EventArgs.Empty);
@@ -116,6 +205,11 @@ namespace StadiumProject
         private void toIssueButton_Click(object sender, EventArgs e)
         {
             ToIssueRequested.Invoke(this, EventArgs.Empty);
+        }
+
+        private void CreateSurveyButton_Click(object sender, EventArgs e)
+        {
+            CreateSurveyRequested.Invoke(this, EventArgs.Empty);
         }
     }
 }

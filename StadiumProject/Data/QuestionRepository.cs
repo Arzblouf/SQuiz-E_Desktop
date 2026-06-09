@@ -7,12 +7,12 @@ namespace StadiumProject.Data
 {
     public class QuestionRepository
     {
-        private readonly string connectionString = "Server=localhost;Database=stadiumproject;User=root;Password=groscaca";
+        //private readonly string connectionString = "Server=localhost;Database=stadiumproject;User=root;Password=groscaca";
 
         public List<Question> GetAllQuestions()
         {
             var questions = new List<Question>();
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "SELECT question.id, question.caption, question_type.label FROM question INNER JOIN question_type ON question.id_type = question_type.id;";
@@ -45,7 +45,7 @@ namespace StadiumProject.Data
         public List<Include> GetSurveyQuestions(int surveyId)
         {
             var surveyQuestions = new List<Include>();
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = @"SELECT include.id_survey, include.id_question, include.num_question, question.caption, question_type.label
@@ -85,7 +85,7 @@ namespace StadiumProject.Data
 
         public bool AddQuestionToSurvey(int surveyId, int questionId, int numQuestion)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "INSERT INTO include (id_survey, id_question, num_question) VALUES (@SurveyId, @QuestionId, @NumQuestion);";
@@ -109,7 +109,7 @@ namespace StadiumProject.Data
 
         public bool RemoveQuestionFromSurvey(int surveyId, int questionId)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "DELETE FROM include WHERE id_survey = @SurveyId AND id_question = @QuestionId;";
@@ -132,7 +132,7 @@ namespace StadiumProject.Data
 
         public int GetNextQuestionNumber(int surveyId)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "SELECT COALESCE(MAX(num_question), 0) + 1 FROM include WHERE id_survey = @SurveyId;";
@@ -154,7 +154,7 @@ namespace StadiumProject.Data
 
         public Question GetQuestionById(int id)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "SELECT question.id, question.caption, question.id_type, question_type.label FROM question JOIN question_type ON question.id_type=question_type.id WHERE question.id = @Id;";
@@ -192,7 +192,7 @@ namespace StadiumProject.Data
 
         public bool CreateQuestion(string caption, int id_type)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "INSERT INTO question (caption, id_type) VALUES (@Caption, @Id_Type);";
@@ -215,7 +215,7 @@ namespace StadiumProject.Data
 
         public bool UpdateQuestion(int id, string caption, int id_type)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "UPDATE question SET caption = @Caption, id_type = @Id_Type WHERE id = @Id;";
@@ -239,16 +239,19 @@ namespace StadiumProject.Data
 
         public bool DeleteQuestion(int id)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
+                string queryDelInclude = "DELETE FROM include WHERE id_question = @Id;";
                 string query = "DELETE FROM question WHERE id = @Id;";
+                using (MySqlCommand commandDelInclude = new MySqlCommand(queryDelInclude, connection))
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
+                    commandDelInclude.Parameters.AddWithValue("@Id", id);
                     command.Parameters.AddWithValue("@Id", id);
                     try
                     {
-                        return command.ExecuteNonQuery() > 0;
+                        return command.ExecuteNonQuery() > 0 && commandDelInclude.ExecuteNonQuery() > 0;
                     }
                     catch (MySqlException ex)
                     {

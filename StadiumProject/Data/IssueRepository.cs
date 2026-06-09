@@ -7,12 +7,12 @@ namespace StadiumProject.Data
 {
     internal class IssueRepository
     {
-        private readonly string connectionString = "Server=localhost;Database=stadiumproject;User=root;Password=groscaca;";
+        //private readonly string connectionString = "Server=localhost;Database=stadiumproject;User=root;Password=groscaca;";
 
         public List<Issue> GetAllIssues()
         {
             List<Issue> issues = new List<Issue>();
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "SELECT probleme.id, probleme.description, users.username FROM probleme JOIN users ON probleme.id_user = users.id;";

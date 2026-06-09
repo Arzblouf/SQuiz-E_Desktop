@@ -19,8 +19,8 @@ namespace StadiumProject
         private void registerButton_Click(object sender, EventArgs e)
         {
             var result = registerController.Register(
-                usernameTextBox.Text,
                 emailTextBox.Text,
+                usernameTextBox.Text,
                 passwordTextBox.Text,
                 confirmPasswordTextBox.Text
             );

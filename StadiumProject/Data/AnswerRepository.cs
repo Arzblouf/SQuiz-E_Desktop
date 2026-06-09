@@ -7,12 +7,12 @@ namespace StadiumProject.Data
 {
     public class AnswerRepository
     {
-        private readonly string connectionString = "Server=localhost;Database=stadiumproject;User=root;Password=groscaca;";
+        //private readonly string connectionString = "Server=localhost;Database=stadiumproject;User=root;Password=groscaca;";
 
         public List<Answer> GetAllAnswers()
         {
             var answers = new List<Answer>();
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "SELECT id, content FROM answer;";
@@ -43,7 +43,7 @@ namespace StadiumProject.Data
 
         public Answer GetAnswerById(int id)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "SELECT id, content FROM answer WHERE id = @Id;";
@@ -75,7 +75,7 @@ namespace StadiumProject.Data
 
         public int CreateAnswer(string content)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "INSERT INTO answer (content) VALUES (@Content);" +
@@ -98,7 +98,7 @@ namespace StadiumProject.Data
 
         public bool UpdateAnswer(int id, string content)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "UPDATE answer SET content = @Content WHERE id = @Id;";
@@ -121,7 +121,7 @@ namespace StadiumProject.Data
 
         public bool DeleteAnswer(int id)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "DELETE FROM answer WHERE id = @Id;";

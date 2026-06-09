@@ -177,6 +177,7 @@ namespace StadiumProject
             }
 
             SubmitSurveyRequested.Invoke(this, EventArgs.Empty);
+            currentSurveyID = -1;
         }
 
         private void cancelButton_Click(object sender, EventArgs e)

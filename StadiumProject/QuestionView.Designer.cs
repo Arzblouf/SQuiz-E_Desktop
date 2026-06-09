@@ -54,9 +54,9 @@
             this.questionLabel.Font = new System.Drawing.Font("Noto Sans Lao", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.questionLabel.Location = new System.Drawing.Point(385, 12);
             this.questionLabel.Name = "questionLabel";
-            this.questionLabel.Size = new System.Drawing.Size(220, 28);
+            this.questionLabel.Size = new System.Drawing.Size(275, 28);
             this.questionLabel.TabIndex = 0;
-            this.questionLabel.Text = "Salut c\'est Frank Leboeuf !";
+            this.questionLabel.Text = "Créer ou modifier vos questions !";
             // 
             // questionTitleTextBox
             // 
@@ -70,9 +70,9 @@
             this.titleLabel.AutoSize = true;
             this.titleLabel.Location = new System.Drawing.Point(69, 87);
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(218, 16);
+            this.titleLabel.Size = new System.Drawing.Size(198, 16);
             this.titleLabel.TabIndex = 2;
-            this.titleLabel.Text = "Donnez un titre à votre frank leboeuf";
+            this.titleLabel.Text = "Donnez un titre à votre question :";
             // 
             // questionTypeComboBox
             // 
@@ -87,9 +87,9 @@
             this.typeLabel.AutoSize = true;
             this.typeLabel.Location = new System.Drawing.Point(57, 169);
             this.typeLabel.Name = "typeLabel";
-            this.typeLabel.Size = new System.Drawing.Size(256, 16);
+            this.typeLabel.Size = new System.Drawing.Size(227, 16);
             this.typeLabel.TabIndex = 4;
-            this.typeLabel.Text = "Choisissez le type de votre Frank Leboeuf";
+            this.typeLabel.Text = "Choisissez le type de votre question :";
             // 
             // vraiFauxComboBox
             // 

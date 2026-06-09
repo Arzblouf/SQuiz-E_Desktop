@@ -36,11 +36,12 @@ namespace StadiumProject
             this.WelcomeLabel = new System.Windows.Forms.Label();
             this.DGVSurvey = new System.Windows.Forms.DataGridView();
             this.CMSGridMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.TSMICreate = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMIModify = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMIDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.TSMIGeneratePDF = new System.Windows.Forms.ToolStripMenuItem();
             this.addQuestionButton = new System.Windows.Forms.Button();
             this.toIssueButton = new System.Windows.Forms.Button();
+            this.CreateSurveyButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DGVSurvey)).BeginInit();
             this.CMSGridMenu.SuspendLayout();
             this.SuspendLayout();
@@ -49,7 +50,7 @@ namespace StadiumProject
             // 
             this.oopsieLabel.AutoSize = true;
             this.oopsieLabel.Font = new System.Drawing.Font("Times New Roman", 19.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.oopsieLabel.Location = new System.Drawing.Point(217, 422);
+            this.oopsieLabel.Location = new System.Drawing.Point(217, 396);
             this.oopsieLabel.Name = "oopsieLabel";
             this.oopsieLabel.Size = new System.Drawing.Size(483, 38);
             this.oopsieLabel.TabIndex = 6;
@@ -94,32 +95,32 @@ namespace StadiumProject
             // 
             this.CMSGridMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.CMSGridMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TSMICreate,
             this.TSMIModify,
-            this.TSMIDelete});
+            this.TSMIDelete,
+            this.TSMIGeneratePDF});
             this.CMSGridMenu.Name = "CMSGridMenu";
-            this.CMSGridMenu.Size = new System.Drawing.Size(173, 76);
-            // 
-            // TSMICreate
-            // 
-            this.TSMICreate.Name = "TSMICreate";
-            this.TSMICreate.Size = new System.Drawing.Size(172, 24);
-            this.TSMICreate.Text = "Create Survey";
-            this.TSMICreate.Click += new System.EventHandler(this.TSMICreateSurvey_Click);
+            this.CMSGridMenu.Size = new System.Drawing.Size(242, 76);
             // 
             // TSMIModify
             // 
             this.TSMIModify.Name = "TSMIModify";
-            this.TSMIModify.Size = new System.Drawing.Size(172, 24);
-            this.TSMIModify.Text = "Modify Survey";
+            this.TSMIModify.Size = new System.Drawing.Size(241, 24);
+            this.TSMIModify.Text = "Modifier questionnaire";
             this.TSMIModify.Click += new System.EventHandler(this.TSMIModifySurvey_Click);
             // 
             // TSMIDelete
             // 
             this.TSMIDelete.Name = "TSMIDelete";
-            this.TSMIDelete.Size = new System.Drawing.Size(172, 24);
-            this.TSMIDelete.Text = "Delete Survey";
+            this.TSMIDelete.Size = new System.Drawing.Size(241, 24);
+            this.TSMIDelete.Text = "Supprimer questionnaire";
             this.TSMIDelete.Click += new System.EventHandler(this.TSMIDeleteSurvey_Click);
+            // 
+            // TSMIGeneratePDF
+            // 
+            this.TSMIGeneratePDF.Name = "TSMIGeneratePDF";
+            this.TSMIGeneratePDF.Size = new System.Drawing.Size(241, 24);
+            this.TSMIGeneratePDF.Text = "Générer PDF";
+            this.TSMIGeneratePDF.Click += new System.EventHandler(this.TSMIGeneratePDF_Click);
             // 
             // addQuestionButton
             // 
@@ -143,10 +144,24 @@ namespace StadiumProject
             this.toIssueButton.UseVisualStyleBackColor = true;
             this.toIssueButton.Click += new System.EventHandler(this.toIssueButton_Click);
             // 
+            // CreateSurveyButton
+            // 
+            this.CreateSurveyButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.CreateSurveyButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CreateSurveyButton.ForeColor = System.Drawing.Color.DarkOliveGreen;
+            this.CreateSurveyButton.Location = new System.Drawing.Point(408, 474);
+            this.CreateSurveyButton.Name = "CreateSurveyButton";
+            this.CreateSurveyButton.Size = new System.Drawing.Size(91, 41);
+            this.CreateSurveyButton.TabIndex = 10;
+            this.CreateSurveyButton.Text = "Créer.";
+            this.CreateSurveyButton.UseVisualStyleBackColor = true;
+            this.CreateSurveyButton.Click += new System.EventHandler(this.CreateSurveyButton_Click);
+            // 
             // MenuView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.CreateSurveyButton);
             this.Controls.Add(this.toIssueButton);
             this.Controls.Add(this.addQuestionButton);
             this.Controls.Add(this.DGVSurvey);
@@ -169,10 +184,11 @@ namespace StadiumProject
         private System.Windows.Forms.Label WelcomeLabel;
         private System.Windows.Forms.DataGridView DGVSurvey;
         private System.Windows.Forms.ContextMenuStrip CMSGridMenu;
-        private System.Windows.Forms.ToolStripMenuItem TSMICreate;
         private System.Windows.Forms.ToolStripMenuItem TSMIModify;
         private System.Windows.Forms.ToolStripMenuItem TSMIDelete;
         private System.Windows.Forms.Button addQuestionButton;
         private System.Windows.Forms.Button toIssueButton;
+        private System.Windows.Forms.ToolStripMenuItem TSMIGeneratePDF;
+        private System.Windows.Forms.Button CreateSurveyButton;
     }
 }

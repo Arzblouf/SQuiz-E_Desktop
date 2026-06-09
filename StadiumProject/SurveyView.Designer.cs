@@ -48,11 +48,11 @@
             // 
             this.SurveyLabel.AutoSize = true;
             this.SurveyLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SurveyLabel.Location = new System.Drawing.Point(369, 26);
+            this.SurveyLabel.Location = new System.Drawing.Point(334, 22);
             this.SurveyLabel.Name = "SurveyLabel";
-            this.SurveyLabel.Size = new System.Drawing.Size(246, 20);
+            this.SurveyLabel.Size = new System.Drawing.Size(335, 20);
             this.SurveyLabel.TabIndex = 0;
-            this.SurveyLabel.Text = "Create and Edit our survey :";
+            this.SurveyLabel.Text = "Créer ou modifier votre questionnaire :";
             // 
             // themeComboBox
             // 
@@ -67,18 +67,18 @@
             this.themeLabel.AutoSize = true;
             this.themeLabel.Location = new System.Drawing.Point(116, 86);
             this.themeLabel.Name = "themeLabel";
-            this.themeLabel.Size = new System.Drawing.Size(111, 16);
+            this.themeLabel.Size = new System.Drawing.Size(135, 16);
             this.themeLabel.TabIndex = 3;
-            this.themeLabel.Text = "Choose a theme :";
+            this.themeLabel.Text = "Choisissez un thème :";
             // 
             // titleLabel
             // 
             this.titleLabel.AutoSize = true;
             this.titleLabel.Location = new System.Drawing.Point(335, 86);
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(94, 16);
+            this.titleLabel.Size = new System.Drawing.Size(119, 16);
             this.titleLabel.TabIndex = 4;
-            this.titleLabel.Text = "Choose a title :";
+            this.titleLabel.Text = "Choisissez un titre :";
             // 
             // titleTextBox
             // 
@@ -92,9 +92,9 @@
             this.publishCheckBox.AutoSize = true;
             this.publishCheckBox.Location = new System.Drawing.Point(661, 123);
             this.publishCheckBox.Name = "publishCheckBox";
-            this.publishCheckBox.Size = new System.Drawing.Size(147, 20);
+            this.publishCheckBox.Size = new System.Drawing.Size(175, 20);
             this.publishCheckBox.TabIndex = 7;
-            this.publishCheckBox.Text = "Publish the survey ?";
+            this.publishCheckBox.Text = "Publié le questionnaire ?";
             this.publishCheckBox.UseVisualStyleBackColor = true;
             // 
             // saveSurveyButton
@@ -106,7 +106,7 @@
             this.saveSurveyButton.Name = "saveSurveyButton";
             this.saveSurveyButton.Size = new System.Drawing.Size(102, 45);
             this.saveSurveyButton.TabIndex = 8;
-            this.saveSurveyButton.Text = "Save";
+            this.saveSurveyButton.Text = "Enregistrer";
             this.saveSurveyButton.UseVisualStyleBackColor = false;
             this.saveSurveyButton.Click += new System.EventHandler(this.saveSurveyButton_Click);
             // 
@@ -120,7 +120,7 @@
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(102, 45);
             this.cancelButton.TabIndex = 9;
-            this.cancelButton.Text = "Cancel";
+            this.cancelButton.Text = "Annuler";
             this.cancelButton.UseVisualStyleBackColor = false;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
@@ -130,9 +130,9 @@
             this.surveyQuestionLabel.Font = new System.Drawing.Font("Microsoft YaHei UI", 10.2F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.surveyQuestionLabel.Location = new System.Drawing.Point(83, 194);
             this.surveyQuestionLabel.Name = "surveyQuestionLabel";
-            this.surveyQuestionLabel.Size = new System.Drawing.Size(160, 23);
+            this.surveyQuestionLabel.Size = new System.Drawing.Size(243, 23);
             this.surveyQuestionLabel.TabIndex = 10;
-            this.surveyQuestionLabel.Text = "Survey Questions :";
+            this.surveyQuestionLabel.Text = "Questions du questionnaire :";
             // 
             // surveyQuestionDGV
             // 
@@ -158,9 +158,9 @@
             this.addQuestionLabel.AutoSize = true;
             this.addQuestionLabel.Location = new System.Drawing.Point(658, 243);
             this.addQuestionLabel.Name = "addQuestionLabel";
-            this.addQuestionLabel.Size = new System.Drawing.Size(181, 16);
+            this.addQuestionLabel.Size = new System.Drawing.Size(230, 16);
             this.addQuestionLabel.TabIndex = 13;
-            this.addQuestionLabel.Text = "Add a question to the survey :";
+            this.addQuestionLabel.Text = "Ajoutez un question au questionnaire :";
             // 
             // addQuestionButton
             // 
@@ -168,7 +168,7 @@
             this.addQuestionButton.Name = "addQuestionButton";
             this.addQuestionButton.Size = new System.Drawing.Size(163, 33);
             this.addQuestionButton.TabIndex = 14;
-            this.addQuestionButton.Text = "Add Question";
+            this.addQuestionButton.Text = "Ajouter Question";
             this.addQuestionButton.UseVisualStyleBackColor = true;
             this.addQuestionButton.Click += new System.EventHandler(this.addQuestionButton_Click);
             // 

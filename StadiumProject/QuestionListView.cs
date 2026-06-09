@@ -69,11 +69,6 @@ namespace StadiumProject
             CMSGridQuestion.Show(DGVQuestion, DGVQuestion.PointToClient(Cursor.Position));
         }
 
-        private void TSMICreateQuestion_Click(object sender, EventArgs e)
-        {
-            CreateQuestionRequested.Invoke(this, EventArgs.Empty);
-        }
-
         private void TSMIModifyQuestion_Click(object sender, EventArgs e)
         {
             if (selectedQuestionID < 0)
@@ -105,6 +100,11 @@ namespace StadiumProject
                     MessageBox.Show(linkResult.Message, "Erreur...", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void CreateQuestionButton_Click(object sender, EventArgs e)
+        {
+            CreateQuestionRequested.Invoke(this, EventArgs.Empty);
         }
     }
 }

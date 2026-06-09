@@ -7,12 +7,12 @@ namespace StadiumProject.Data
 {
     public class AnsweringRepository
     {
-        private readonly string connectionString = "Server=localhost;Database=stadiumproject;User=root;Password=groscaca;";
+        //private readonly string connectionString = "Server=localhost;Database=stadiumproject;User=root;Password=groscaca;";
 
         public List<Answering> GetAllAnswerings()
         {
             List<Answering> answerings = new List<Answering>();
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "SELECT id_question, id_answer, valid_answer, num_answer FROM answering;";
@@ -47,7 +47,7 @@ namespace StadiumProject.Data
         public Answering GetAnsweringById(int id_question)
         {
             Answering answering = null;
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "SELECT id_question, id_answer, valid_answer, num_answer FROM answering WHERE id_question = @id_question;";
@@ -82,13 +82,13 @@ namespace StadiumProject.Data
         public List<Answer> GetAnswersByQuestionId(int questionId)
         {
             List<Answer> answers = new List<Answer>();
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "SELECT answer.id, answer.content, answering.valid_answer, answering.num_answer FROM answer INNER JOIN answering ON answer.id=answering.id_answer INNER JOIN question ON answering.id_question=question.id WHERE question.id=@questionID;";
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue(@"questionId", questionId);
+                    command.Parameters.AddWithValue(@"questionID", questionId);
                     try
                     {
                         using (MySqlDataReader reader = command.ExecuteReader())
@@ -118,7 +118,7 @@ namespace StadiumProject.Data
         public int GetNextAnswerNumber(int id_question)
         {
             int nextNum = 1;
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "SELECT COALESCE(MAX(num_answer), 0) + 1 FROM answering WHERE id_question = @id_question;";
@@ -140,7 +140,7 @@ namespace StadiumProject.Data
 
         public bool HasValidAnswer(int id_question)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "SELECT COUNT(*) FROM answering WHERE id_question = @id_question AND valid_answer = 1;";
@@ -163,7 +163,7 @@ namespace StadiumProject.Data
 
         public bool LinkAnswer(int id_question, int id_answer, bool valid_answer, int num_answer, int weight = 0)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "INSERT INTO answering (id_question, id_answer, valid_answer, num_answer, weight) VALUES (@id_question, @id_answer, @valid_answer, @num_answer, @weight);";
@@ -189,7 +189,7 @@ namespace StadiumProject.Data
 
         public bool UpdateRightAnswer(int id_question, int id_answer)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "UPDATE answering SET valid_answer = true WHERE id_question = @id_question AND id_answer = @id_answer;";
@@ -212,7 +212,7 @@ namespace StadiumProject.Data
 
         public bool UpdateWeight(int id_question, int weight)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "UPDATE answering SET weight = @weight WHERE id_question = @id_question AND valid_answer = 1;";
@@ -235,10 +235,11 @@ namespace StadiumProject.Data
 
         public bool UnlinkAnswer(int id_question, int id_answer)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "DELETE FROM answering WHERE id_question = @id_question AND id_answer = @id_answer;";
+
                 using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id_question", id_question);
@@ -258,7 +259,7 @@ namespace StadiumProject.Data
 
         public bool DeleteAllByQuestion(int id_question)
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(Database.ConnectionString))
             {
                 connection.Open();
                 string query = "DELETE FROM answering WHERE id_question=@id_question;";

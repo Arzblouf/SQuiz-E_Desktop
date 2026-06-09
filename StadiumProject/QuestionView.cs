@@ -72,7 +72,6 @@ namespace StadiumProject
             weightCheckedListBox.Items.Add("1");
             weightCheckedListBox.Items.Add("2");
             weightCheckedListBox.Items.Add("3");
-            weightCheckedListBox.Items.Add("8000");
 
             weightCheckedListBox.SetItemChecked(0, true);
         }
@@ -243,6 +242,7 @@ namespace StadiumProject
                 }
             }
             SubmitQuestionRequested.Invoke(this, EventArgs.Empty);
+            currentQuestionId = -1;
         }
 
         private void cancelButton_Click(object sender, EventArgs e)

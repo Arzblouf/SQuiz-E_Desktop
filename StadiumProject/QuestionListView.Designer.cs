@@ -33,9 +33,9 @@
             this.DGVQuestion = new System.Windows.Forms.DataGridView();
             this.questionLabel = new System.Windows.Forms.Label();
             this.CMSGridQuestion = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.TSMICreateQuestion = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMIModifyQuestion = new System.Windows.Forms.ToolStripMenuItem();
             this.TSMIDeleteQuestion = new System.Windows.Forms.ToolStripMenuItem();
+            this.CreateQuestionButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DGVQuestion)).BeginInit();
             this.CMSGridQuestion.SuspendLayout();
             this.SuspendLayout();
@@ -77,37 +77,43 @@
             // 
             this.CMSGridQuestion.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.CMSGridQuestion.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TSMICreateQuestion,
             this.TSMIModifyQuestion,
             this.TSMIDeleteQuestion});
             this.CMSGridQuestion.Name = "CMSGridQuestion";
-            this.CMSGridQuestion.Size = new System.Drawing.Size(211, 104);
-            // 
-            // TSMICreateQuestion
-            // 
-            this.TSMICreateQuestion.Name = "TSMICreateQuestion";
-            this.TSMICreateQuestion.Size = new System.Drawing.Size(210, 24);
-            this.TSMICreateQuestion.Text = "Créer";
-            this.TSMICreateQuestion.Click += new System.EventHandler(this.TSMICreateQuestion_Click);
+            this.CMSGridQuestion.Size = new System.Drawing.Size(148, 52);
             // 
             // TSMIModifyQuestion
             // 
             this.TSMIModifyQuestion.Name = "TSMIModifyQuestion";
-            this.TSMIModifyQuestion.Size = new System.Drawing.Size(210, 24);
+            this.TSMIModifyQuestion.Size = new System.Drawing.Size(147, 24);
             this.TSMIModifyQuestion.Text = "Modifier";
             this.TSMIModifyQuestion.Click += new System.EventHandler(this.TSMIModifyQuestion_Click);
             // 
             // TSMIDeleteQuestion
             // 
             this.TSMIDeleteQuestion.Name = "TSMIDeleteQuestion";
-            this.TSMIDeleteQuestion.Size = new System.Drawing.Size(210, 24);
+            this.TSMIDeleteQuestion.Size = new System.Drawing.Size(147, 24);
             this.TSMIDeleteQuestion.Text = "Supprimer";
             this.TSMIDeleteQuestion.Click += new System.EventHandler(this.TSMIDeleteQuestion_Click);
+            // 
+            // CreateQuestionButton
+            // 
+            this.CreateQuestionButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.CreateQuestionButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CreateQuestionButton.ForeColor = System.Drawing.Color.DarkOliveGreen;
+            this.CreateQuestionButton.Location = new System.Drawing.Point(851, 34);
+            this.CreateQuestionButton.Name = "CreateQuestionButton";
+            this.CreateQuestionButton.Size = new System.Drawing.Size(107, 68);
+            this.CreateQuestionButton.TabIndex = 3;
+            this.CreateQuestionButton.Text = "Créer une nouvelle question ?";
+            this.CreateQuestionButton.UseVisualStyleBackColor = true;
+            this.CreateQuestionButton.Click += new System.EventHandler(this.CreateQuestionButton_Click);
             // 
             // QuestionListView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.CreateQuestionButton);
             this.Controls.Add(this.questionLabel);
             this.Controls.Add(this.DGVQuestion);
             this.Controls.Add(this.backToMenuButton);
@@ -126,8 +132,8 @@
         private System.Windows.Forms.DataGridView DGVQuestion;
         private System.Windows.Forms.Label questionLabel;
         private System.Windows.Forms.ContextMenuStrip CMSGridQuestion;
-        private System.Windows.Forms.ToolStripMenuItem TSMICreateQuestion;
         private System.Windows.Forms.ToolStripMenuItem TSMIModifyQuestion;
         private System.Windows.Forms.ToolStripMenuItem TSMIDeleteQuestion;
+        private System.Windows.Forms.Button CreateQuestionButton;
     }
 }
