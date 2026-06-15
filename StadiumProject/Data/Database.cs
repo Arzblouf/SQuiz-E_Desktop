@@ -12,12 +12,12 @@ namespace StadiumProject.Data
         {
             if (bddUtilisee == "local")
             {
-                ConnectionString = "Server=localhost;Database=stadiumproject;User=root;Password=groscaca;";
+                ConnectionString = "Server=;Database=;User=;Password=;";
                 bddName = "stadiumproject";
             }
             else
             {
-                ConnectionString = "Server=104.40.137.99;Port=22260;Database=joshua_ppe;User=developer;Password=cerfal1313;";
+                ConnectionString = "Server=;Port=;Database=;User=;Password=;";
                 bddName = "joshua_ppe";
             }
         }
